@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lumora Café — Specialty Coffee & Workspace</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --cream: #F5F0E8;
+    --warm-white: #FAF8F4;
+    --espresso: #1C1208;
+    --brown: #4A2E12;
+    --caramel: #C8813A;
+    --gold: #D4A853;
+    --muted: #8A7968;
+    --border: rgba(74,46,18,0.15);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--warm-white);
+    color: var(--espresso);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 4rem;
+    background: rgba(250,248,244,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem; font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--espresso);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--caramel); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--espresso); }
+  .nav-cta {
+    font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase;
+    font-weight: 500; padding: 0.6rem 1.4rem;
+    border: 1px solid var(--caramel); color: var(--caramel);
+    text-decoration: none; border-radius: 2px;
+    transition: all 0.2s;
+  }
+  .nav-cta:hover { background: var(--caramel); color: #fff; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+    position: relative; overflow: hidden;
+  }
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 5rem 3rem 5rem 4rem;
+    background: var(--warm-white);
+    position: relative; z-index: 2;
+  }
+  .hero-eyebrow {
+    font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--caramel); font-weight: 500; margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block; width: 32px; height: 1px; background: var(--caramel);
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 5vw, 4.5rem);
+    font-weight: 300; line-height: 1.1;
+    color: var(--espresso); margin-bottom: 1.5rem;
+  }
+  .hero-title em { font-style: italic; color: var(--caramel); }
+  .hero-desc {
+    font-size: 1rem; line-height: 1.75; color: var(--muted);
+    max-width: 400px; margin-bottom: 2.5rem;
+  }
+  .hero-actions { display: flex; gap: 1rem; align-items: center; }
+  .btn-primary {
+    padding: 0.85rem 2rem; background: var(--espresso); color: var(--cream);
+    text-decoration: none; font-size: 0.82rem;
+    letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500;
+    border-radius: 2px; transition: background 0.2s;
+  }
+  .btn-primary:hover { background: var(--brown); }
+  .btn-ghost {
+    padding: 0.85rem 0; color: var(--muted); text-decoration: none;
+    font-size: 0.82rem; letter-spacing: 0.05em;
+    display: flex; align-items: center; gap: 0.5rem;
+    border-bottom: 1px solid transparent; transition: all 0.2s;
+  }
+  .btn-ghost:hover { color: var(--espresso); border-color: var(--espresso); }
+  .hero-stats {
+    display: flex; gap: 2rem; margin-top: 3rem;
+    padding-top: 2rem; border-top: 1px solid var(--border);
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem; font-weight: 600; color: var(--espresso);
+  }
+  .stat-label { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.05em; margin-top: 2px; }
+
+  .hero-right {
+    position: relative; overflow: hidden;
+    background: var(--espresso);
+  }
+  .hero-img-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 60%, rgba(200,129,58,0.25) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(212,168,83,0.15) 0%, transparent 50%),
+      var(--espresso);
+  }
+  .hero-img-content {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 1.5rem;
+  }
+  .coffee-art {
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    border: 1px solid rgba(212,168,83,0.3);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    animation: floatAnim 4s ease-in-out infinite;
+  }
+  @keyframes floatAnim {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  .coffee-art svg { width: 120px; height: 120px; opacity: 0.9; }
+  .hero-badge {
+    background: rgba(212,168,83,0.1); border: 1px solid rgba(212,168,83,0.3);
+    padding: 0.75rem 1.5rem; border-radius: 2px;
+    font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--gold);
+  }
+  .hero-tag {
+    position: absolute; bottom: 3rem; left: 3rem;
+    background: rgba(250,248,244,0.08); backdrop-filter: blur(8px);
+    border: 1px solid rgba(250,248,244,0.15);
+    padding: 1rem 1.25rem; border-radius: 4px; color: var(--cream);
+  }
+  .hero-tag .t1 { font-size: 0.7rem; color: rgba(250,248,244,0.5); letter-spacing: 0.1em; text-transform: uppercase; }
+  .hero-tag .t2 { font-size: 0.95rem; margin-top: 4px; }
+  .hero-tag .t3 { font-size: 0.75rem; color: var(--gold); margin-top: 2px; }
+
+  /* SECTION BASE */
+  section { padding: 6rem 4rem; }
+  .section-label {
+    font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--caramel); font-weight: 500; margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .section-label::before { content: ''; display: block; width: 24px; height: 1px; background: var(--caramel); }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 300; line-height: 1.2;
+    color: var(--espresso);
+  }
+
+  /* ABOUT */
+  .about { background: var(--cream); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .about-visual {
+    aspect-ratio: 4/5;
+    background: var(--espresso);
+    border-radius: 4px;
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .about-visual-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 40% 50%, rgba(200,129,58,0.3) 0%, transparent 70%);
+  }
+  .about-visual-inner {
+    position: relative; z-index: 1; text-align: center;
+    display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
+  }
+  .big-letter {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 10rem; font-weight: 300; line-height: 1;
+    color: rgba(212,168,83,0.2); user-select: none;
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  }
+  .about-icon { width: 80px; height: 80px; opacity: 0.7; }
+  .about-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; font-style: italic; color: rgba(250,248,244,0.7);
+    max-width: 200px; text-align: center; line-height: 1.5;
+  }
+  .about-text { display: flex; flex-direction: column; gap: 1.5rem; }
+  .about-text p { font-size: 0.95rem; line-height: 1.8; color: var(--muted); }
+  .about-text p strong { color: var(--espresso); font-weight: 500; }
+  .about-features { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+  .about-feat {
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    padding: 1rem; background: var(--warm-white); border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+  .feat-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--caramel); margin-top: 7px; flex-shrink: 0; }
+  .feat-title { font-size: 0.82rem; font-weight: 500; color: var(--espresso); }
+  .feat-sub { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+
+  /* MENU */
+  .menu { background: var(--warm-white); }
+  .menu-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; }
+  .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .menu-card {
+    border: 1px solid var(--border); border-radius: 4px;
+    overflow: hidden; transition: transform 0.25s, box-shadow 0.25s;
+    background: var(--warm-white);
+  }
+  .menu-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(28,18,8,0.1); }
+  .menu-card-img {
+    height: 180px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3.5rem; position: relative; overflow: hidden;
+  }
+  .menu-card-img.espresso-bg { background: linear-gradient(135deg, #2C1A0A 0%, #4A2E12 100%); }
+  .menu-card-img.latte-bg { background: linear-gradient(135deg, #5C3A1E 0%, #8B5E3C 100%); }
+  .menu-card-img.matcha-bg { background: linear-gradient(135deg, #2D4A1E 0%, #4A7A2E 100%); }
+  .menu-card-img.food-bg { background: linear-gradient(135deg, #4A3A1E 0%, #7A6040 100%); }
+  .menu-card-img.cold-bg { background: linear-gradient(135deg, #1E3A4A 0%, #2E5A7A 100%); }
+  .menu-card-img.dessert-bg { background: linear-gradient(135deg, #4A1E30 0%, #7A2E50 100%); }
+  .menu-emoji { font-size: 3rem; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3)); }
+  .menu-badge {
+    position: absolute; top: 0.75rem; right: 0.75rem;
+    background: var(--caramel); color: #fff;
+    font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 2px; font-weight: 500;
+  }
+  .menu-card-body { padding: 1.25rem; }
+  .menu-card-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem; font-weight: 600; color: var(--espresso);
+  }
+  .menu-card-desc { font-size: 0.78rem; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+  .menu-card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; }
+  .menu-price { font-size: 1rem; font-weight: 500; color: var(--caramel); }
+  .menu-add {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--espresso); color: var(--cream);
+    border: none; cursor: pointer; font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .menu-add:hover { background: var(--caramel); }
+
+  /* SPACE */
+  .workspace { background: var(--espresso); color: var(--cream); }
+  .workspace .section-title { color: var(--cream); }
+  .workspace .section-label { color: var(--gold); }
+  .workspace .section-label::before { background: var(--gold); }
+  .space-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,0.08); margin-top: 3rem; border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; }
+  .space-item { background: var(--espresso); padding: 2rem 1.5rem; }
+  .space-item:hover { background: rgba(255,255,255,0.04); }
+  .space-icon {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(212,168,83,0.15); border: 1px solid rgba(212,168,83,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; margin-bottom: 1rem;
+  }
+  .space-name { font-size: 0.9rem; font-weight: 500; color: var(--cream); margin-bottom: 6px; }
+  .space-desc { font-size: 0.78rem; color: rgba(250,248,244,0.45); line-height: 1.6; }
+  .space-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem; color: var(--gold); margin-top: 1rem; font-weight: 300;
+  }
+
+  /* TESTIMONIALS */
+  .testimonials { background: var(--cream); }
+  .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .test-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: 4px; padding: 1.75rem; }
+  .test-stars { color: var(--gold); font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 1rem; }
+  .test-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem; font-style: italic; color: var(--espresso);
+    line-height: 1.65; margin-bottom: 1.25rem;
+  }
+  .test-author { display: flex; align-items: center; gap: 0.75rem; }
+  .test-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 500; color: var(--cream);
+  }
+  .test-name { font-size: 0.82rem; font-weight: 500; color: var(--espresso); }
+  .test-role { font-size: 0.72rem; color: var(--muted); margin-top: 1px; }
+
+  /* CTA */
+  .cta-section { background: var(--caramel); padding: 5rem 4rem; text-align: center; }
+  .cta-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 4vw, 3.5rem); font-weight: 300;
+    color: var(--warm-white); margin-bottom: 1rem;
+  }
+  .cta-sub { font-size: 1rem; color: rgba(250,248,244,0.75); margin-bottom: 2.5rem; }
+  .cta-actions { display: flex; gap: 1rem; justify-content: center; align-items: center; flex-wrap: wrap; }
+  .cta-btn {
+    padding: 0.9rem 2.5rem; background: var(--espresso); color: var(--cream);
+    text-decoration: none; font-size: 0.82rem;
+    letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500;
+    border-radius: 2px; transition: opacity 0.2s;
+  }
+  .cta-btn:hover { opacity: 0.85; }
+  .cta-btn-outline {
+    padding: 0.9rem 2.5rem; background: transparent; color: var(--warm-white);
+    text-decoration: none; font-size: 0.82rem;
+    letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500;
+    border: 1px solid rgba(250,248,244,0.5); border-radius: 2px; transition: all 0.2s;
+  }
+  .cta-btn-outline:hover { background: rgba(250,248,244,0.1); }
+
+  /* FOOTER */
+  footer {
+    background: var(--espresso); color: rgba(250,248,244,0.5);
+    padding: 3rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1.5rem;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; font-weight: 600; color: var(--cream);
+  }
+  .footer-logo span { color: var(--gold); }
+  .footer-links { display: flex; gap: 2rem; }
+  .footer-links a {
+    font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: rgba(250,248,244,0.4); text-decoration: none; transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-copy { font-size: 0.75rem; }
+
+  /* ANIMATE */
+  .fade-up {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Lumora<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">Our Story</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#workspace">Workspace</a></li>
+    <li><a href="#contact">Visit Us</a></li>
+  </ul>
+  <a href="#menu" class="nav-cta">Order Now</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Est. 2019 · Jakarta Selatan</p>
+    <h1 class="hero-title">Where Every Cup<br>Tells a <em>Story</em></h1>
+    <p class="hero-desc">Specialty coffee sourced from Indonesian highlands, brewed with precision, served in a space designed for focus and connection.</p>
+    <div class="hero-actions">
+      <a href="#menu" class="btn-primary">Explore Menu</a>
+      <a href="#workspace" class="btn-ghost">Our Space →</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">12+</div>
+        <div class="stat-label">Coffee Origins</div>
+      </div>
+      <div>
+        <div class="stat-num">4.9</div>
+        <div class="stat-label">Rating on Google</div>
+      </div>
+      <div>
+        <div class="stat-num">2K+</div>
+        <div class="stat-label">Happy Customers</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-img-bg"></div>
+    <div class="hero-img-content">
+      <div class="coffee-art">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="58" r="32" stroke="rgba(212,168,83,0.4)" stroke-width="1"/>
+          <circle cx="50" cy="58" r="22" fill="rgba(200,129,58,0.3)" stroke="rgba(212,168,83,0.5)" stroke-width="0.5"/>
+          <circle cx="50" cy="58" r="13" fill="rgba(200,129,58,0.5)"/>
+          <path d="M30 58 Q50 38 70 58" stroke="rgba(250,248,244,0.3)" stroke-width="1" fill="none"/>
+          <path d="M35 58 Q50 44 65 58" stroke="rgba(250,248,244,0.2)" stroke-width="0.5" fill="none"/>
+          <rect x="32" y="88" width="36" height="4" rx="2" fill="rgba(212,168,83,0.3)"/>
+          <rect x="24" y="90" width="52" height="2" rx="1" fill="rgba(212,168,83,0.2)"/>
+          <path d="M58 30 Q62 22 58 16 Q62 22 66 16" stroke="rgba(250,248,244,0.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M48 28 Q52 20 48 14 Q52 20 56 14" stroke="rgba(250,248,244,0.2)" stroke-width="1" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="hero-badge">Specialty Grade · SCA Certified</div>
+    </div>
+    <div class="hero-tag">
+      <div class="t1">Today's Special</div>
+      <div class="t2">Toraja Sulawesi Single Origin</div>
+      <div class="t3">Notes of dark chocolate & dried fruit</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about fade-up" id="about">
+  <div class="about-grid">
+    <div class="about-visual">
+      <div class="about-visual-bg"></div>
+      <span class="big-letter">L</span>
+      <div class="about-visual-inner">
+        <svg class="about-icon" viewBox="0 0 80 80" fill="none">
+          <circle cx="40" cy="46" r="26" stroke="rgba(212,168,83,0.5)" stroke-width="1.5"/>
+          <circle cx="40" cy="46" r="16" fill="rgba(200,129,58,0.25)" stroke="rgba(212,168,83,0.4)" stroke-width="1"/>
+          <circle cx="40" cy="46" r="8" fill="rgba(200,129,58,0.5)"/>
+          <rect x="20" y="70" width="40" height="3" rx="1.5" fill="rgba(212,168,83,0.4)"/>
+          <rect x="14" y="72" width="52" height="2" rx="1" fill="rgba(212,168,83,0.25)"/>
+          <path d="M46 22 Q50 14 46 8" stroke="rgba(250,248,244,0.3)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M38 20 Q42 12 38 6" stroke="rgba(250,248,244,0.2)" stroke-width="1" fill="none" stroke-linecap="round"/>
+        </svg>
+        <p class="about-quote">"Coffee is a language in itself."</p>
+      </div>
+    </div>
+    <div class="about-text">
+      <div>
+        <p class="section-label">Our Story</p>
+        <h2 class="section-title">Crafted with Purpose,<br>Served with Care</h2>
+      </div>
+      <p>Lumora Café was born from a simple belief: <strong>great coffee changes conversations.</strong> Founded in 2019 in the heart of Jakarta Selatan, we've spent years building relationships with local farmers from Aceh to Flores to bring you Indonesia's finest specialty beans.</p>
+      <p>Every cup we serve is a result of meticulous sourcing, careful roasting, and skilled barista craft. We don't just serve coffee — we share a piece of the land, the people, and the story behind it.</p>
+      <div class="about-features">
+        <div class="about-feat">
+          <div class="feat-dot"></div>
+          <div>
+            <div class="feat-title">Direct Trade</div>
+            <div class="feat-sub">Sourced from 8 farmers</div>
+          </div>
+        </div>
+        <div class="about-feat">
+          <div class="feat-dot"></div>
+          <div>
+            <div class="feat-title">Fresh Roasted</div>
+            <div class="feat-sub">Roasted every Monday</div>
+          </div>
+        </div>
+        <div class="about-feat">
+          <div class="feat-dot"></div>
+          <div>
+            <div class="feat-title">SCA Trained</div>
+            <div class="feat-sub">Certified barista team</div>
+          </div>
+        </div>
+        <div class="about-feat">
+          <div class="feat-dot"></div>
+          <div>
+            <div class="feat-title">Eco Friendly</div>
+            <div class="feat-sub">Zero-waste packaging</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu fade-up" id="menu">
+  <div class="menu-header">
+    <div>
+      <p class="section-label">What We Serve</p>
+      <h2 class="section-title">Our Signature Menu</h2>
+    </div>
+    <a href="#" class="btn-ghost" style="color: var(--muted);">View full menu →</a>
+  </div>
+  <div class="menu-grid">
+    <div class="menu-card">
+      <div class="menu-card-img espresso-bg">
+        <span class="menu-emoji">☕</span>
+        <span class="menu-badge">Bestseller</span>
+      </div>
+      <div class="menu-card-body">
+        <div class="menu-card-name">Single Origin Espresso</div>
+        <div class="menu-card-desc">Toraja Sulawesi, washed process. Dark chocolate, dried fruit, caramel finish.</div>
+        <div class="menu-card-footer">
+          <span class="menu-price">Rp 45.000</span>
+          <button class="menu-add">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="menu-card">
+      <div class="menu-card-img latte-bg">
+        <span class="menu-emoji">🥛</span>
+      </div>
+      <div class="menu-card-body">
+        <div class="menu-card-name">Signature Latte</div>
+        <div class="menu-card-desc">Our house blend with oat milk, light caramel foam. Smooth and balanced.</div>
+        <div class="menu-card-footer">
+          <span class="menu-price">Rp 52.000</span>
+          <button class="menu-add">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="menu-card">
+      <div class="menu-card-img matcha-bg">
+        <span class="menu-emoji">🍵</span>
+        <span class="menu-badge">New</span>
+      </div>
+      <div class="menu-card-body">
+        <div class="menu-card-name">Ceremonial Matcha</div>
+        <div class="menu-card-desc">Grade A Japanese matcha, steamed oat milk, light honey drizzle.</div>
+        <div class="menu-card-footer">
+          <span class="menu-price">Rp 58.000</span>
+          <button class="menu-add">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="menu-card">
+      <div class="menu-card-img cold-bg">
+        <span class="menu-emoji">🧊</span>
+      </div>
+      <div class="menu-card-body">
+        <div class="menu-card-name">Cold Brew Float</div>
+        <div class="menu-card-desc">18-hour cold brew, vanilla ice cream, salted caramel. Summer in a glass.</div>
+        <div class="menu-card-footer">
+          <span class="menu-price">Rp 65.000</span>
+          <button class="menu-add">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="menu-card">
+      <div class="menu-card-img food-bg">
+        <span class="menu-emoji">🥐</span>
+      </div>
+      <div class="menu-card-body">
+        <div class="menu-card-name">Butter Croissant</div>
+        <div class="menu-card-desc">Freshly baked every morning. Pure butter, flaky layers, golden crust.</div>
+        <div class="menu-card-footer">
+          <span class="menu-price">Rp 38.000</span>
+          <button class="menu-add">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="menu-card">
+      <div class="menu-card-img dessert-bg">
+        <span class="menu-emoji">🍰</span>
+        <span class="menu-badge">Limited</span>
+      </div>
+      <div class="menu-card-body">
+        <div class="menu-card-name">Espresso Basque Cake</div>
+        <div class="menu-card-desc">Creamy burnt cheesecake infused with our house espresso. Sinfully good.</div>
+        <div class="menu-card-footer">
+          <span class="menu-price">Rp 72.000</span>
+          <button class="menu-add">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKSPACE -->
+<section class="workspace fade-up" id="workspace">
+  <p class="section-label">Our Space</p>
+  <h2 class="section-title" style="max-width: 500px;">Designed for Deep Work & Good Coffee</h2>
+  <div class="space-grid">
+    <div class="space-item">
+      <div class="space-icon">⚡</div>
+      <div class="space-name">High-Speed WiFi</div>
+      <div class="space-desc">Dedicated 1Gbps fiber. Consistent throughout the space.</div>
+      <div class="space-num">1 Gbps</div>
+    </div>
+    <div class="space-item">
+      <div class="space-icon">🔌</div>
+      <div class="space-name">Power Points</div>
+      <div class="space-desc">Every seat has dedicated power access, including USB-C.</div>
+      <div class="space-num">40+ Outlets</div>
+    </div>
+    <div class="space-item">
+      <div class="space-icon">🎙️</div>
+      <div class="space-name">Private Pods</div>
+      <div class="space-desc">Soundproof meeting pods for calls and focused sessions.</div>
+      <div class="space-num">4 Pods</div>
+    </div>
+    <div class="space-item">
+      <div class="space-icon">🕐</div>
+      <div class="space-name">Open Hours</div>
+      <div class="space-desc">Open 7 days a week. Early birds and night owls both welcome.</div>
+      <div class="space-num">7am–10pm</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials fade-up">
+  <p class="section-label">What Guests Say</p>
+  <h2 class="section-title">Loved by Our Community</h2>
+  <div class="test-grid">
+    <div class="test-card">
+      <div class="test-stars">★★★★★</div>
+      <p class="test-text">"The Toraja single origin changed how I think about coffee. Complex, beautiful, and the barista explained every detail."</p>
+      <div class="test-author">
+        <div class="test-avatar" style="background: #4A2E12;">AR</div>
+        <div>
+          <div class="test-name">Arif Rachman</div>
+          <div class="test-role">Product Designer · Regular</div>
+        </div>
+      </div>
+    </div>
+    <div class="test-card">
+      <div class="test-stars">★★★★★</div>
+      <p class="test-text">"I've been working remotely from Lumora for 3 months. The WiFi never fails, the vibe is unmatched, and the cold brew keeps me going."</p>
+      <div class="test-author">
+        <div class="test-avatar" style="background: #1E3A4A;">SP</div>
+        <div>
+          <div class="test-name">Sarah Putri</div>
+          <div class="test-role">Freelance Developer</div>
+        </div>
+      </div>
+    </div>
+    <div class="test-card">
+      <div class="test-stars">★★★★★</div>
+      <p class="test-text">"Finally a café that takes both coffee and ambiance seriously. The Basque cake with espresso is an experience, not just a dessert."</p>
+      <div class="test-author">
+        <div class="test-avatar" style="background: #3B1E4A;">DW</div>
+        <div>
+          <div class="test-name">Dian Wulandari</div>
+          <div class="test-role">Startup Founder</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section fade-up" id="contact">
+  <h2 class="cta-title">Come In. Stay Awhile.</h2>
+  <p class="cta-sub">Jl. Kemang Raya No. 88, Jakarta Selatan · Open daily 7am–10pm</p>
+  <div class="cta-actions">
+    <a href="#" class="cta-btn">Get Directions</a>
+    <a href="#" class="cta-btn-outline">Follow on Instagram</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Lumora<span>.</span></div>
+  <nav class="footer-links">
+    <a href="#">Menu</a>
+    <a href="#">Our Story</a>
+    <a href="#">Workspace</a>
+    <a href="#">Instagram</a>
+  </nav>
+  <p class="footer-copy">© 2026 Lumora Café. All rights reserved.</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+document.querySelectorAll('.menu-add').forEach(btn => {
+  btn.addEventListener('click', function() {
+    this.textContent = '✓';
+    this.style.background = '#4A2E12';
+    setTimeout(() => { this.textContent = '+'; this.style.background = ''; }, 1500);
+  });
+});
+</script>
+</body>
+</html>
